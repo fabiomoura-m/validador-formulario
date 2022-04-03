@@ -27,16 +27,22 @@ let b7Validador = {
 
     if (rules !== null) {
       rules = rules.split('|');
-
       for (let item in rules) {
         let rulesDetails = rules[item].split('=');
         switch (rulesDetails[0]) {
           case 'required':
-            if (input.value === '') {
+            if (input.value == '') {
               return 'Campo não pode ser vazio.';
             }
             break;
           case 'min':
+            if (input.value.length < rulesDetails[1]) {
+              return (
+                'Campo tem que ter pelo menos ' +
+                rulesDetails[1] +
+                ' caracteres'
+              );
+            }
             break;
         }
       }

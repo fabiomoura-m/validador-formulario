@@ -7,13 +7,14 @@ let b7Validador = {
 
     let inputs = form.querySelectorAll('input');
 
+    b7Validador.clearErrors();
+
     for (let i = 0; i < inputs.length; i++) {
       let input = inputs[i];
       let check = b7Validador.checkInput(input);
       if (check !== true) {
         send = false;
-        //exibir o erro
-        console.log(check);
+        b7Validador.showError(input, check);
       }
     }
 
@@ -29,7 +30,6 @@ let b7Validador = {
 
       for (let item in rules) {
         let rulesDetails = rules[item].split('=');
-
         switch (rulesDetails[0]) {
           case 'required':
             if (input.value === '') {
@@ -43,6 +43,24 @@ let b7Validador = {
     }
 
     return true;
+  },
+  showError: (input, error) => {
+    input.style.borderColor = '#ff0000';
+    let errorElement = document.createElement('div');
+    errorElement.classList.add('error');
+    errorElement.innerHTML = error;
+
+    input.parentElement.insertBefore(errorElement, input.nextElementSibling);
+  },
+  clearErrors: () => {
+    let inputs = form.querySelectorAll('input');
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].style = '';
+    }
+    let errorElements = document.querySelectorAll('.error');
+    for (let i = 0; i < errorElements.length; i++) {
+      errorElements[i].remove();
+    }
   }
 };
 
